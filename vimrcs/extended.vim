@@ -207,10 +207,10 @@ vmap <F5> <Esc>:call CompileRun()<CR>
 func! CompileRun()
 exec "w"
 if &filetype == 'c'
-    exec "!gcc % -o %<"
+    exec "!gcc -g -std=c11 % -lpthread -o %<"
     exec "!time ./%<"
 elseif &filetype == 'cpp'
-    exec "!g++ % -o %<"
+    exec "!g++ -g -std=c++17 % -lpthread -o %<"
     exec "!time ./%<"
 elseif &filetype == 'java'
     exec "!javac %"
