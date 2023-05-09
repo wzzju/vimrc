@@ -54,6 +54,16 @@ let g:gitgutter_enabled = 1
 " settings of NERDTree
 let g:NERDTreeWinPos = "left"
 
+" settings of indentLine
+let g:indentLine_enabled = 1
+let g:indentLine_char = '▏'
+let g:indentLine_showFirstIndentLevel = 0
+let g:indentLine_first_char = '▏'
+nnoremap <Leader>ei :IndentLinesToggle<CR>
+
+" settings of vim-markdown
+let g:vim_markdown_conceal_code_blocks = 0
+
 " settings of clang-format
 let g:clang_format#code_style = "google"
 let g:clang_format#style_options = {
