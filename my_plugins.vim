@@ -11,4 +11,5 @@ Plug 'prabirshrestha/vim-lsp'
 Plug 'wzzju/vimcompletesme'
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'crusoexia/vim-monokai'
+Plug 'octol/vim-cpp-enhanced-highlight'
 call plug#end()

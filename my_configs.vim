@@ -10,6 +10,14 @@ highlight Search ctermbg=yellow ctermfg=black
 highlight IncSearch ctermbg=black ctermfg=yellow
 highlight MatchParen cterm=underline ctermbg=NONE ctermfg=NONE
 
+" settings about c++ syntax highlighting
+let g:cpp_class_scope_highlight = 1
+let g:cpp_member_variable_highlight = 1
+let g:cpp_class_decl_highlight = 1
+let g:cpp_posix_standard = 1
+let g:cpp_concepts_highlight = 1
+let g:cpp_experimental_template_highlight = 1
+
 set undofile
 set undodir=~/.vim_runtime/temp_dirs/undodir
 " maximum number of changes that can be undone
