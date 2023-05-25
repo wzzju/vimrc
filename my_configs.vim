@@ -244,3 +244,12 @@ fun! ShowFuncName()
   call search("\\%" . lnum . "l" . "\\%" . col . "c")
 endfun
 nnoremap <S-f> :<C-u>call ShowFuncName()<CR>
+
+nnoremap <Leader>a :Ack<Space>
+" settings of ctrlsf
+nnoremap <Leader>g :CtrlSF<Space>
+let g:ctrlsf_auto_preview = 1
+let g:ctrlsf_search_mode = 'async'
+let g:ctrlsf_position = 'bottom'
+let g:ctrlsf_default_view_mode = 'compact'
+let g:ctrlsf_default_root = 'project'
