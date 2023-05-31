@@ -106,6 +106,10 @@ let g:vim_isort_map = '<Leader>i'
 autocmd FileType python nnoremap <buffer><Leader>i :<C-u>Isort<CR>
 autocmd BufWritePre *.py silent execute ':Isort'
 
+" use dart-vim-plugin to format dart files
+autocmd FileType dart nnoremap <buffer><Leader>df :<C-u>DartFmt<CR>
+autocmd BufWritePre *.dart silent execute ':DartFmt'
+
 " settings of Language Server Protocol
 if executable('clangd')
   au User lsp_setup call lsp#register_server({
