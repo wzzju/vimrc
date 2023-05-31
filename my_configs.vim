@@ -195,6 +195,12 @@ let g:copilot_filetypes = {
       \ 'c': v:true,
       \ }
 
+" settings of asyncomplete
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
+imap <a-space> <Plug>(asyncomplete_force_refresh)
+
 " settings of commands of `term` and `vert term`
 nnoremap <Leader>v :vert term<CR>
 nnoremap <Leader>h :term<CR>
