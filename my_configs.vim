@@ -10,6 +10,8 @@ highlight Search ctermbg=yellow ctermfg=black
 highlight IncSearch ctermbg=black ctermfg=yellow
 highlight MatchParen cterm=underline ctermbg=NONE ctermfg=NONE
 
+" xpu syntax highlighting
+au BufNewFile,BufRead *.xpu set ft=cpp
 " settings about c++ syntax highlighting
 let g:cpp_class_scope_highlight = 1
 let g:cpp_member_variable_highlight = 1
@@ -41,16 +43,36 @@ set directory=~/.vim_runtime/temp_dirs/swapdir
 set viewoptions=folds,options,cursor,unix,slash
 
 " use // instead of /**/
-autocmd FileType c,cpp setlocal commentstring=//\ %s
+autocmd FileType c,cpp,xpu setlocal commentstring=//\ %s
 
-" auto indent 2 characters
-set tabstop=2
-set shiftwidth=2
+" auto indent 4 characters
+set tabstop=4
+set shiftwidth=4
 
 " settings of gitgutter
 set updatetime=100
 let g:gitgutter_enabled = 1
 
+" Check if NERDTree is open or active
+function! IsNERDTreeOpen()
+  return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
+endfunction
+" Call NERDTreeFind iff NERDTree is active, current window contains a modifiable
+" file, and we're not in vimdiff
+function! SyncTree()
+  if &modifiable && IsNERDTreeOpen() && strlen(expand('%')) > 0 && !&diff
+    NERDTreeFind
+    wincmd p
+  endif
+endfunction
+" Highlight currently open buffer in NERDTree
+autocmd BufEnter * call SyncTree()
+function! ToggleNerdTree()
+  set eventignore=BufEnter
+  NERDTreeToggle
+  set eventignore=
+endfunction
+nmap <leader>nn :call ToggleNerdTree()<CR>
 " settings of NERDTree
 let g:NERDTreeWinPos = "left"
 
@@ -67,26 +89,48 @@ let g:vim_markdown_conceal_code_blocks = 0
 " settings of clang-format
 let g:clang_format#code_style = "google"
 let g:clang_format#style_options = {
-      \ "IndentWidth" : 2,
-      \ "TabWidth" : 2,
-      \ "ContinuationIndentWidth" : 4,
-      \ "AccessModifierOffset" : -1,
-      \ "Standard" : "C++11",
-      \ "AllowAllParametersOfDeclarationOnNextLine" : "true",
-      \ "BinPackParameters" : "false",
-      \ "BinPackArguments" : "false",
-      \ "ColumnLimit" : 100,
-      \ "AlignTrailingComments": "true",
-      \ "IncludeBlocks" : "Preserve"}
+      \ "BasedOnStyle": "Google",
+      \ "AccessModifierOffset": -4,
+      \ "AlignAfterOpenBracket": "AlwaysBreak",
+      \ "AlignOperands": "false",
+      \ "AllowAllParametersOfDeclarationOnNextLine": "false",
+      \ "AllowShortBlocksOnASingleLine": "false",
+      \ "AllowShortCaseLabelsOnASingleLine": "false",
+      \ "AllowShortFunctionsOnASingleLine": "Empty",
+      \ "AllowShortIfStatementsOnASingleLine": "false",
+      \ "AllowShortLoopsOnASingleLine": "false",
+      \ "AlwaysBreakAfterReturnType": "None",
+      \ "AlwaysBreakTemplateDeclarations": "true",
+      \ "BinPackArguments": "false",
+      \ "BinPackParameters": "false",
+      \ "BreakConstructorInitializers": "AfterColon",
+      \ "ColumnLimit": 100,
+      \ "ConstructorInitializerIndentWidth": 8,
+      \ "ContinuationIndentWidth": 8,
+      \ "DerivePointerAlignment": "true",
+      \ "FixNamespaceComments": "true",
+      \ "IndentCaseLabels": "false",
+      \ "IndentWidth": 4,
+      \ "MaxEmptyLinesToKeep": 1,
+      \ "NamespaceIndentation": "None",
+      \ "PenaltyBreakAssignment": 2,
+      \ "PenaltyBreakBeforeFirstCallParameter": 1,
+      \ "PenaltyBreakComment": 500,
+      \ "PenaltyBreakFirstLessLess": 120,
+      \ "PenaltyBreakString": 1000,
+      \ "PenaltyExcessCharacter": 1000000,
+      \ "PenaltyReturnTypeOnItsOwnLine": 400,
+      \ "PointerAlignment": "Left",
+      \ "SortIncludes": "true"}
 " formatting is executed on the save event
 let g:clang_format#auto_format = 1
 " automatically detects the style file like .clang-format
 let g:clang_format#detect_style_file = 1
 " map to <Leader>cf in C/C++ code
-autocmd FileType c,cpp nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
-autocmd FileType c,cpp vnoremap <buffer><Leader>cf :ClangFormat<CR>
+autocmd FileType c,cpp,xpu nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
+autocmd FileType c,cpp,xpu vnoremap <buffer><Leader>cf :ClangFormat<CR>
 " auto-enabling auto-formatting
-autocmd FileType c,cpp ClangFormatAutoEnable
+autocmd FileType c,cpp,xpu ClangFormatAutoEnable
 " toggle auto formatting:
 nnoremap <Leader>ec :ClangFormatAutoToggle<CR>
 
@@ -115,7 +159,7 @@ if executable('clangd')
   au User lsp_setup call lsp#register_server({
     \ 'name': 'clangd',
     \ 'cmd': {server_info->['clangd']},
-    \ 'allowlist': ['c', 'cpp', 'objc', 'objcpp'],
+    \ 'allowlist': ['c', 'cpp', 'xpu', 'objc', 'objcpp'],
     \ })
 endif
 if executable('pylsp')
@@ -161,6 +205,7 @@ augroup lsp_install
   " Call s:on_lsp_buffer_enabled only for languages
   " that has the server registered.
   autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+  let g:lsp_diagnostics_enabled = 0
 augroup END
 
 " settings of the git-blame
