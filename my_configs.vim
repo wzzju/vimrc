@@ -51,6 +51,26 @@ set shiftwidth=2
 set updatetime=100
 let g:gitgutter_enabled = 1
 
+" Check if NERDTree is open or active
+function! IsNERDTreeOpen()
+  return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
+endfunction
+" Call NERDTreeFind iff NERDTree is active, current window contains a modifiable
+" file, and we're not in vimdiff
+function! SyncTree()
+  if &modifiable && IsNERDTreeOpen() && strlen(expand('%')) > 0 && !&diff
+    NERDTreeFind
+    wincmd p
+  endif
+endfunction
+" Highlight currently open buffer in NERDTree
+autocmd BufEnter * call SyncTree()
+function! ToggleNerdTree()
+  set eventignore=BufEnter
+  NERDTreeToggle
+  set eventignore=
+endfunction
+nmap <leader>nn :call ToggleNerdTree()<CR>
 " settings of NERDTree
 let g:NERDTreeWinPos = "left"
 
@@ -161,6 +181,7 @@ augroup lsp_install
   " Call s:on_lsp_buffer_enabled only for languages
   " that has the server registered.
   autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+  let g:lsp_diagnostics_enabled = 0
 augroup END
 
 " settings of the git-blame
