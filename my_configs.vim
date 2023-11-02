@@ -205,7 +205,6 @@ augroup lsp_install
   " Call s:on_lsp_buffer_enabled only for languages
   " that has the server registered.
   autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-  let g:lsp_diagnostics_enabled = 0
 augroup END
 
 " settings of the git-blame
