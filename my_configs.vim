@@ -231,8 +231,9 @@ let g:ale_c_parse_compile_commands = 1
 let g:ale_set_highlights = 1
 let g:ale_lint_on_enter = 1
 let g:ale_cpp_cc_options = '-std=c++17 -Wall'
-let g:ale_cpp_cpplint_options = '--filter=-readability/todo,-whitespace/todo,-whitespace/line_length,-build/c++11,+build/include_what_you_use'
-let g:ale_c_cpplint_options = '--filter=-readability/todo,-whitespace/todo,-whitespace/line_length,-build/c++11,+build/include_what_you_use'
+let g:ale_cpp_clangtidy_checks = ['-*','cppcoreguidelines-*']
+" let g:ale_cpp_cpplint_options = '--filter=-readability/todo,-whitespace/todo,-whitespace/line_length,-build/c++11,+build/include_what_you_use'
+" let g:ale_c_cpplint_options = '--filter=-readability/todo,-whitespace/todo,-whitespace/line_length,-build/c++11,+build/include_what_you_use'
 nmap <silent> <Leader>n <Plug>(ale_next_wrap)
 nmap <silent> <Leader>p <Plug>(ale_previous_wrap)
 
