@@ -111,7 +111,8 @@ autocmd FileType c,cpp ClangFormatAutoEnable
 nnoremap <Leader>ec :ClangFormatAutoToggle<CR>
 
 " use black to format python files
-" let g:black_virtualenv = '~/.virtualenvs/develop'
+" let g:black_use_virtualenv = 'true'
+" let g:black_virtualenv = '/work/.virtualenvs/develop'
 let g:black_skip_string_normalization = 1
 let g:black_linelength = 100
 autocmd FileType python nnoremap <buffer><Leader>pf :<C-u>Black<CR>
@@ -150,6 +151,17 @@ if executable('bash-language-server')
     \ 'name': 'bash-language-server',
     \ 'cmd': {server_info->[&shell, &shellcmdflag, 'bash-language-server start']},
     \ 'allowlist': ['sh', 'bash'],
+    \ })
+endif
+if executable('cmake-language-server')
+  au User lsp_setup call lsp#register_server({
+    \ 'name': 'cmake',
+    \ 'cmd': {server_info->['cmake-language-server']},
+    \ 'root_uri': {server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'build/'))},
+    \ 'whitelist': ['cmake'],
+    \ 'initialization_options': {
+    \   'buildDirectory': 'build',
+    \ }
     \ })
 endif
 function! s:on_lsp_buffer_enabled() abort
