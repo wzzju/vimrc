@@ -17,6 +17,8 @@ let g:cpp_class_decl_highlight = 1
 let g:cpp_posix_standard = 1
 let g:cpp_concepts_highlight = 1
 let g:cpp_experimental_template_highlight = 1
+" cppm syntax highlight
+au BufNewFile,BufRead *.cppm set ft=cpp
 
 set undofile
 set undodir=~/.vim_runtime/temp_dirs/undodir
@@ -87,16 +89,14 @@ let g:vim_markdown_conceal_code_blocks = 0
 " settings of clang-format
 let g:clang_format#code_style = "google"
 let g:clang_format#style_options = {
-      \ "IndentWidth" : 2,
+      \ "Language" : "Cpp",
       \ "TabWidth" : 2,
       \ "ContinuationIndentWidth" : 4,
       \ "AccessModifierOffset" : -1,
-      \ "Standard" : "C++11",
+      \ "Standard" : "Cpp11",
       \ "AllowAllParametersOfDeclarationOnNextLine" : "true",
       \ "BinPackParameters" : "false",
       \ "BinPackArguments" : "false",
-      \ "ColumnLimit" : 100,
-      \ "AlignTrailingComments": "true",
       \ "IncludeBlocks" : "Preserve"}
 " formatting is executed on the save event
 let g:clang_format#auto_format = 1
@@ -127,9 +127,10 @@ let g:vim_isort_map = '<Leader>i'
 autocmd FileType python nnoremap <buffer><Leader>i :<C-u>Isort<CR>
 autocmd BufWritePre *.py silent execute ':Isort'
 
-" use dart-vim-plugin to format dart files
-autocmd FileType dart nnoremap <buffer><Leader>df :<C-u>DartFmt<CR>
-autocmd BufWritePre *.dart silent execute ':DartFmt'
+" rust file detection, syntax highlighting, formatting
+autocmd FileType rust nnoremap <buffer><Leader>rf :<C-u>RustFmt<CR>
+let g:rustfmt_autosave = 1
+let g:rustfmt_command = "rustfmt"
 
 " settings of Language Server Protocol
 if executable('clangd')
@@ -144,6 +145,14 @@ if executable('pylsp')
     \ 'name': 'pylsp',
     \ 'cmd': {server_info->['pylsp']},
     \ 'allowlist': ['python'],
+    \ })
+endif
+" rustup component add rust-analyzer
+if executable('rust-analyzer')
+  au User lsp_setup call lsp#register_server({
+    \ 'name': 'rust-analyzer',
+    \ 'cmd': {server_info->['rust-analyzer']},
+    \ 'allowlist': ['rust'],
     \ })
 endif
 if executable('bash-language-server')
@@ -213,8 +222,16 @@ let g:goyo_linenr = 1
 " just use pylsp for the autocompletion.
 let g:jedi#auto_initialization = 0
 
-" Disable ALE from parsing the compile_commands.json file.
-" Because the compile_commands.json file can be very huge.
+" ale settings for rust
+let g:ale_linters = {
+      \ 'rust': ['cargo', 'clippy']
+      \ }
+let g:ale_fixers = {
+      \ 'rust': ['cargo', 'rustfmt']
+      \ }
+let g:ale_rust_cargo_use_clippy = 1
+" Disable ALE from parsing the compile_commands.json file,
+" because the compile_commands.json file can be very huge.
 let g:ale_c_parse_compile_commands = 1
 let g:ale_set_highlights = 1
 let g:ale_lint_on_enter = 1

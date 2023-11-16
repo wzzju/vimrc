@@ -226,7 +226,7 @@ elseif &filetype == 'go'
     exec "!time go run %"
 elseif &filetype == 'matlab'
     exec "!time octave %"
-elseif &filetype == 'dart'
-    exec "!time dart run %"
+elseif &filetype == 'rust'
+    exec "!time cargo run --quiet"
 endif
 endfunc

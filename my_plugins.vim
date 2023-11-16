@@ -17,5 +17,4 @@ Plug 'crusoexia/vim-monokai'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'Yggdroot/indentLine'
 Plug 'dyng/ctrlsf.vim'
-Plug 'dart-lang/dart-vim-plugin'
 call plug#end()
