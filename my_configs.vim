@@ -136,6 +136,10 @@ autocmd FileType rust nnoremap <buffer><Leader>rf :<C-u>RustFmt<CR>
 let g:rustfmt_autosave = 1
 let g:rustfmt_command = "rustfmt"
 
+" shell format
+let g:shfmt_extra_args = '-i 2'
+let g:shfmt_fmt_on_save = 1
+
 " settings of Language Server Protocol
 if executable('clangd')
   au User lsp_setup call lsp#register_server({
