@@ -4,6 +4,8 @@ colorscheme monokai
 set cursorline
 " show the line number
 set number
+" set term shell
+set shell=/bin/bash
 
 " highlight color
 highlight Search ctermbg=yellow ctermfg=black
@@ -19,6 +21,7 @@ let g:cpp_concepts_highlight = 1
 let g:cpp_experimental_template_highlight = 1
 " cppm syntax highlight
 au BufNewFile,BufRead *.cppm set ft=cpp
+au BufNewFile,BufRead *.xpu set ft=cpp
 
 set undofile
 set undodir=~/.vim_runtime/temp_dirs/undodir
