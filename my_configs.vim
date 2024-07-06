@@ -6,6 +6,8 @@ set cursorline
 set number
 " set term shell
 set shell=/bin/bash
+" enable mouse support only in visual mode and insert mode
+set mouse=vi
 
 " highlight color
 highlight Search ctermbg=yellow ctermfg=black
