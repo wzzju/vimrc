@@ -140,7 +140,9 @@ let g:rustfmt_command = "rustfmt"
 
 " shell format
 let g:shfmt_extra_args = '-i 2'
-let g:shfmt_fmt_on_save = 1
+let g:shfmt_fmt_on_save = 0
+autocmd FileType sh nnoremap <buffer><Leader>sf :<C-u>Shfmt<CR>
+autocmd FileType sh vnoremap <buffer><Leader>sf :Shfmt<CR>
 
 " settings of Language Server Protocol
 if executable('clangd')
