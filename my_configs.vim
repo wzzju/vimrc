@@ -208,7 +208,11 @@ function! s:on_lsp_buffer_enabled() abort
   nmap <buffer> <S-c> <plug>(lsp-preview-close)
   nnoremap <buffer> <expr><S-u> lsp#scroll(-4)
   nnoremap <buffer> <expr><S-d> lsp#scroll(+4)
+
+  let g:lsp_format_sync_timeout = 1000
+  autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
 endfunction
+
 augroup lsp_install
   au!
   " Call s:on_lsp_buffer_enabled only for languages
@@ -234,10 +238,15 @@ let g:goyo_linenr = 1
 " just use pylsp for the autocompletion.
 let g:jedi#auto_initialization = 0
 
-" ale settings for rust
+" settings for ALE
 let g:ale_linters = {
-      \ 'rust': ['cargo', 'clippy']
+      \ 'rust': ['cargo', 'clippy'],
+      \ 'python': ['pylsp'],
       \ }
+" ~/.config/pycodestyle:
+" [pycodestyle]
+" ignore = E501
+" max-line-length=100
 let g:ale_fixers = {
       \ 'rust': ['cargo', 'rustfmt']
       \ }
@@ -252,6 +261,7 @@ let g:ale_cpp_clangtidy_checks = ['-*','cppcoreguidelines-*']
 " --filter=-readability/todo,-whitespace/todo
 let g:ale_cpp_cpplint_options = '-whitespace/line_length,-build/c++11,+build/include_what_you_use'
 let g:ale_c_cpplint_options = '-whitespace/line_length,-build/c++11,+build/include_what_you_use'
+nnoremap <Leader><Leader> :<C-u>ALEToggle<CR>
 nmap <silent> <Leader>n <Plug>(ale_next_wrap)
 nmap <silent> <Leader>p <Plug>(ale_previous_wrap)
 
