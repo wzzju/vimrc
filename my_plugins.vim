@@ -20,4 +20,5 @@ Plug 'dyng/ctrlsf.vim'
 Plug 'ryanoasis/vim-devicons'
 Plug 'lambdalisue/glyph-palette.vim'
 Plug 'z0mbix/vim-shfmt', { 'for': 'sh'  }
+Plug 'majutsushi/tagbar'
 call plug#end()
